@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy this to family.json and fill in your own family. gender is M, F or any. spouse and excludes refer to other people by name. spouse MUST be set on both partners.",
+  "people": [
+    { "name": "Alex",   "gender": "M", "spouse": "Sam" },
+    { "name": "Sam",    "gender": "F", "spouse": "Alex" },
+    { "name": "Jordan", "gender": "M", "spouse": "Riley" },
+    { "name": "Riley",  "gender": "F", "spouse": "Jordan" },
+    { "name": "Casey",  "gender": "M" },
+    { "name": "Rowan",  "gender": "F" },
+    { "name": "Morgan", "gender": "F", "excludes": ["Sam"] }
+  ]
+}

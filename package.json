@@ -1,0 +1,16 @@
+{
+  "name": "walker-christmas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Family Christmas name draw - a static site with encrypted assignments",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "draw": "node scripts/draw.js",
+    "verify": "node scripts/verify.js",
+    "serve": "node scripts/serve.js",
+    "test": "node --test test/*.test.js"
+  }
+}

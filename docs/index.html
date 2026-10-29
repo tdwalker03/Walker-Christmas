@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walker Christmas Name Draw</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎄</text></svg>">
+</head>
+<body>
+  <canvas class="snow" id="snow"></canvas>
+
+  <div class="wrap">
+    <header>
+      <div class="mark">🎄</div>
+      <h1>Christmas <em>Name Draw</em></h1>
+      <p class="tagline">Find out who you are buying for.</p>
+    </header>
+
+    <!-- Unlock -->
+    <section id="view-unlock" class="card hidden">
+      <h2>Open your name</h2>
+      <p class="sub">
+        Pick yourself from the list and enter the passphrase you were sent.
+        Nobody else can open your name, and you cannot open theirs.
+      </p>
+      <div id="unlock-msg"></div>
+      <form id="unlock-form">
+        <div class="field">
+          <label for="name">Who are you?</label>
+          <select id="name" required>
+            <option value="">Choose your name…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="passphrase">Your passphrase</label>
+          <input id="passphrase" type="text" autocomplete="off" autocapitalize="off"
+                 autocorrect="off" spellcheck="false" placeholder="copper-sleigh-moose-42" required>
+        </div>
+        <button type="submit" id="unlock-btn" class="btn-primary">Unwrap my name</button>
+      </form>
+    </section>
+
+    <!-- Working -->
+    <section id="view-working" class="card hidden" style="text-align:center">
+      <div class="mark" style="font-size:52px">🎁</div>
+      <h2 style="text-align:center">Unwrapping…</h2>
+      <p class="sub" style="text-align:center;margin-bottom:0">This takes a moment on purpose.</p>
+    </section>
+
+    <!-- The result -->
+    <section id="view-result" class="card reveal hidden">
+      <div class="eyebrow">You are buying for</div>
+      <p class="name" id="recipient">—</p>
+      <p class="note">Keep it to yourself. 🤫</p>
+      <div class="rule"></div>
+      <button id="again-btn" class="btn-ghost">Done</button>
+    </section>
+
+    <!-- Nothing generated yet -->
+    <section id="view-empty" class="card hidden">
+      <h2>Not set up yet</h2>
+      <p class="sub">
+        The draw has not been generated. If you are the organiser, run
+        <code>npm run draw</code> and commit the result.
+      </p>
+    </section>
+
+    <footer id="footer"></footer>
+  </div>
+
+  <script src="snow.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

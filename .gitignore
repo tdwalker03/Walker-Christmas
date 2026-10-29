@@ -1,0 +1,11 @@
+node_modules/
+
+# Your private copy of everyone's passphrases - NEVER commit this.
+passphrases.txt
+
+# Your real roster. Genders and spouse links are personal; the site does not
+# need them. Delete this line if you would rather keep it backed up in the repo.
+family.json
+
+*.log
+.DS_Store
