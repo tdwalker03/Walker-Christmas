@@ -7,11 +7,12 @@
 // authentication tag rather than producing a plausible-looking name.
 
 /**
- * PBKDF2 rounds. Deliberately slow - it costs the family about a second on the
- * reveal (which reads as suspense) but multiplies the cost of grinding through
- * passphrases offline, which matters because the encrypted file is public.
+ * PBKDF2 rounds. Kept modest on purpose: passphrases are now short enough that
+ * no iteration count would make them resistant to a determined attacker, so
+ * there is nothing to buy by making every grandparent's phone work harder.
+ * This is still enough to make casual poking tedious.
  */
-export const PBKDF2_ITERATIONS = 2_000_000;
+export const PBKDF2_ITERATIONS = 300_000;
 
 /**
  * Every name is padded to this many bytes before encryption. AES-GCM

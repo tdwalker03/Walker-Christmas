@@ -1,4 +1,8 @@
-import { decryptName } from './crypto.js';
+// The ?v= token is rewritten by `npm run draw`. Without it a browser can
+// serve a cached crypto.js from a previous draw (GitHub Pages sends
+// max-age=600), silently deriving the wrong key and rejecting every
+// correct passphrase.
+import { decryptName } from './crypto.js?v=mvtuk1sr';
 
 const $ = (id) => document.getElementById(id);
 const views = ['view-unlock', 'view-working', 'view-result', 'view-empty'];

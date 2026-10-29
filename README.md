@@ -44,8 +44,7 @@ because a half-set link would quietly let somebody draw their partner.
 | `docs/assignments.json` | **Yes** | Everyone's result, encrypted. Safe to publish. |
 | `passphrases.txt` | **Never** | Everyone's passphrase in plain text. Gitignored. |
 
-Then hand each person their own line from `passphrases.txt` (they look like
-`sleigh4821!`) — a text, a note in a card, whatever. That passphrase is the only thing standing between a relative
+Then hand each person their own line from `passphrases.txt` (they look like `holly7!`) — a text, a note in a card, whatever. That passphrase is the only thing standing between a relative
 and your name, so send them individually rather than posting the lot in the
 family group chat.
 
@@ -97,7 +96,7 @@ asserting every one completes with all rules intact.
 can't drift apart.
 
 - Each person's recipient is encrypted with **AES-GCM 256**.
-- The key is stretched from their passphrase with **PBKDF2-SHA256, 2,000,000
+- The key is stretched from their passphrase with **PBKDF2-SHA256, 300,000
   iterations**, with a random 16-byte salt each.
 - A wrong passphrase fails GCM's authentication tag, so it returns *nothing*
   rather than a plausible-looking wrong name.
@@ -106,42 +105,46 @@ can't drift apart.
   long each recipient's name is — enough to rule names out in a small family.
   `npm run verify` checks every ciphertext is the same length.
 
-Passphrases are one word, a four-digit number and `!` or `$` — like
-`sleigh4821!` — drawn from the 478-word list in `scripts/wordlist.js`. That is
-478 x 9000 x 2 = **8.6 million combinations, about 23 bits**. Input is case- and
-whitespace-insensitive, so "Sleigh 4821 !" works too, but the symbol is part of
-the passphrase and `$` will not open a `!` entry.
+Passphrases are one word, one digit and `!` or `$` — like `holly7!` — drawn
+from the 153-word list in `scripts/wordlist.js`. Input is case- and
+whitespace-insensitive, so "Holly 7 !" works too, but the symbol is part of the
+passphrase and `$` will not open a `!` entry.
+
+`npm run draw` guarantees the passphrases it issues are all different from each
+other. That matters here: the key comes from the passphrase plus that entry's
+salt, so two people handed the same passphrase could each open the other's name.
+At this keyspace that collision happens often enough to be a real risk, not a
+theoretical one, so it is ruled out rather than left to luck.
 
 ### Honest limits
 
-**Brute force — read this one.** The encrypted file is public, so anyone can
-grind passphrases offline at their own pace. 23 bits is not a lot:
+**These passphrases are not secure, by choice.** One word, one digit and a
+symbol is 153 x 9 x 2 = **2,754 combinations** — about 11 bits. Anyone willing to
+write a short script against the public file can open every name in the family in
+seconds. The 300,000 PBKDF2 iterations make casual poking tedious and nothing
+more; no iteration count rescues a secret this small.
 
-| Attacker | Time to open one person's name |
-| --- | --- |
-| A laptop, no special setup | about a month |
-| Someone running hashcat on a gaming GPU | **1–2 hours** |
+This is a deliberate trade. The passphrases are meant to be read aloud, remembered
+and typed by anyone in the family, and that is worth more here than resistance to
+an attacker who, realistically, is not coming. Treat the draw as private-by-good-
+manners rather than private-by-cryptography.
 
-The 2,000,000 PBKDF2 iterations are what keep even the GPU case in hours rather
-than seconds, but they cannot rescue a 23-bit secret. This format was chosen for
-how easy it is to text to a relative and type on a phone, and that convenience is
-paid for in security. It is fine against a curious sibling poking at the page. It
-is not fine against someone who genuinely sets out to break it.
+If that ever stops being the right call, `DIGITS` in `scripts/passphrase.js` is
+the dial — each extra digit multiplies the keyspace by ten, and adding words to
+`scripts/wordlist.js` scales it too. Either change means re-running the draw and
+reissuing every passphrase.
 
-If you want it stronger without changing the shape, raise `DIGITS` in
-`scripts/passphrase.js`. Each extra digit multiplies the attacker's work by ten —
-`DIGITS = 6` (`sleigh482173!`) buys back a factor of 100 and costs two characters.
-Changing it means re-running the draw and reissuing every passphrase.
+### A note on caching
 
-**The rules themselves leak information.** This is inherent, not a flaw in the
-encryption: anyone who knows the family knows the rules, and same-gender matching
-in a small family narrows the field a lot. With three men in the draw, each man
-has only two possible recipients — a 50/50 guess without touching the crypto. The
-larger and more mixed the group, the less this matters.
+GitHub Pages serves JavaScript with `Cache-Control: max-age=600`. A browser that
+loaded the page in the last ten minutes will reuse its cached copy, so changing
+the encryption parameters can leave someone pairing an old `crypto.js` with a new
+draw — which rejects every correct passphrase and looks exactly like a broken
+passphrase.
 
-**You can see everything.** You run the draw, so `passphrases.txt` lets you open
-any result. If you'd rather be surprised too, have someone outside the exchange
-run it.
+`npm run draw` therefore rewrites a `?v=` token on the `app.js` and `crypto.js`
+URLs each time it runs, so a new draw always fetches fresh code. `assignments.json`
+is cache-busted on every page load. Do not strip those tokens.
 
 ## Layout
 

@@ -16,12 +16,16 @@ import { fileURLToPath } from 'node:url';
 
 import { solve } from '../src/matching.js';
 import { encryptName } from '../docs/crypto.js';
-import { makePassphrase } from './passphrase.js';
+import { makeUniquePassphrases } from './passphrase.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FAMILY_FILE = join(ROOT, 'family.json');
 const OUT_FILE = join(ROOT, 'docs', 'assignments.json');
 const PASSPHRASE_FILE = join(ROOT, 'passphrases.txt');
+// Pages serves JS with max-age=600, so these carry a ?v= token that is
+// rewritten on every draw. Without it a browser can pair a cached crypto.js
+// with a fresh draw and reject every correct passphrase.
+const VERSIONED_FILES = [join(ROOT, 'docs', 'index.html'), join(ROOT, 'docs', 'app.js')];
 
 function fail(message) {
   console.error(`\n  ✖ ${message}\n`);
@@ -103,15 +107,25 @@ if (!result.feasible) {
 // --- build the published file ----------------------------------------------
 
 const recipientOf = new Map(result.pairs.map((p) => [p.giverId, p.receiverId]));
-const passphrases = new Map();
 const entries = [];
 
+// Distinct passphrases: two people sharing one could open each other's name.
+let issued;
+try {
+  issued = makeUniquePassphrases(people.length);
+} catch (err) {
+  fail(err.message);
+}
+
+const passphrases = new Map(people.map((p, i) => [p.name, issued[i]]));
+
 for (const person of people) {
-  const passphrase = makePassphrase();
-  passphrases.set(person.name, passphrase);
   entries.push({
     name: person.name,
-    ...(await encryptName(people[recipientOf.get(person.id)].name, passphrase)),
+    ...(await encryptName(
+      people[recipientOf.get(person.id)].name,
+      passphrases.get(person.name),
+    )),
   });
 }
 
@@ -144,6 +158,15 @@ const lines = [
   '',
 ];
 writeFileSync(PASSPHRASE_FILE, `${lines.join('\n')}\n`);
+
+// --- bust the browser cache -------------------------------------------------
+
+const version = Date.now().toString(36);
+for (const file of VERSIONED_FILES) {
+  const src = readFileSync(file, 'utf8');
+  const stamped = src.replace(/(\?v=)[A-Za-z0-9]+/g, `$1${version}`);
+  if (stamped !== src) writeFileSync(file, stamped);
+}
 
 // --- report -----------------------------------------------------------------
 
