@@ -31,10 +31,10 @@ const family = JSON.parse(read('family.json', 'Run `npm run draw` first.'));
 const published = JSON.parse(read('docs/assignments.json', 'Run `npm run draw` first.'));
 const passphraseText = read('passphrases.txt', 'Run `npm run draw` first.');
 
-// passphrases.txt is "  Name   word-word-word-NN" per line.
+// passphrases.txt is "  Name   word1234!" per line.
 const passphrases = new Map();
 for (const line of passphraseText.split('\n')) {
-  const match = line.match(/^\s{2}(.+?)\s{2,}([a-z0-9-]+)\s*$/);
+  const match = line.match(/^\s{2}(.+?)\s{2,}([a-z0-9!$-]+)\s*$/);
   if (match) passphrases.set(match[1].trim(), match[2]);
 }
 

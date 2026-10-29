@@ -16,14 +16,12 @@ import { fileURLToPath } from 'node:url';
 
 import { solve } from '../src/matching.js';
 import { encryptName } from '../docs/crypto.js';
-import { WORDS } from './wordlist.js';
+import { makePassphrase } from './passphrase.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FAMILY_FILE = join(ROOT, 'family.json');
 const OUT_FILE = join(ROOT, 'docs', 'assignments.json');
 const PASSPHRASE_FILE = join(ROOT, 'passphrases.txt');
-
-const WORDS_PER_PASSPHRASE = 3;
 
 function fail(message) {
   console.error(`\n  ✖ ${message}\n`);
@@ -100,26 +98,6 @@ if (!result.feasible) {
     'No valid draw is possible with these rules - somebody would always be left with ' +
       'themselves or their spouse. Check the spouse links and exclusions in family.json.',
   );
-}
-
-// --- passphrases ------------------------------------------------------------
-
-/** Unbiased pick from an array, avoiding the modulo skew of `% length`. */
-function pick(array) {
-  const limit = Math.floor(0xffffffff / array.length) * array.length;
-  const buf = new Uint32Array(1);
-  let n;
-  do {
-    crypto.getRandomValues(buf);
-    n = buf[0];
-  } while (n >= limit);
-  return array[n % array.length];
-}
-
-function makePassphrase() {
-  const words = Array.from({ length: WORDS_PER_PASSPHRASE }, () => pick(WORDS));
-  const digits = String(pick([...Array(90).keys()].map((n) => n + 10)));
-  return [...words, digits].join('-');
 }
 
 // --- build the published file ----------------------------------------------

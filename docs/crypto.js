@@ -11,7 +11,7 @@
  * reveal (which reads as suspense) but multiplies the cost of grinding through
  * passphrases offline, which matters because the encrypted file is public.
  */
-export const PBKDF2_ITERATIONS = 1_000_000;
+export const PBKDF2_ITERATIONS = 2_000_000;
 
 /**
  * Every name is padded to this many bytes before encryption. AES-GCM
@@ -24,12 +24,15 @@ const PLAINTEXT_BYTES = 64;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-/** "Copper Sleigh 42" and "copper-sleigh-42" are the same passphrase. */
+/**
+ * Forgiving input: "Sleigh 4821 !" and "sleigh4821!" are the same passphrase.
+ *
+ * Case, spaces, hyphens and stray punctuation are discarded, but `!` and `$`
+ * are KEPT - they are part of the passphrase and carry real entropy. An
+ * earlier version stripped them, which silently made the symbol decorative.
+ */
 export function normalisePassphrase(input) {
-  return String(input)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+  return String(input).toLowerCase().replace(/[^a-z0-9!$]/g, '');
 }
 
 async function deriveKey(passphrase, salt) {
