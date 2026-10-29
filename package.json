@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Family Christmas name draw - a static site with encrypted assignments",
+  "description": "Family Christmas name draw",
   "engines": {
     "node": ">=20"
   },

@@ -1,0 +1,84 @@
+{
+  "generated": "2026-10-29T17:29:45.197Z",
+  "note": "Each entry is AES-GCM encrypted with that person's own passphrase. Safe to publish.",
+  "entries": [
+    {
+      "name": "Britney",
+      "salt": "mc0Yzyrq8bb7GyE5cK8IyQ==",
+      "iv": "T5UyDhE3nLuO8I72",
+      "data": "8g7NPCzgTAYyXXSy9TDAeXlvQTu8fSCewMstvCdxi3nARC+ot+2udPFBjG6LdePDJxIXt3DwDWi4USLTh/pzoBixklkp38/QRS7JAlZAwPQ="
+    },
+    {
+      "name": "Chase",
+      "salt": "Bpt5STGxXXyLjr0Y++8qlQ==",
+      "iv": "9COOuueyKg1H59yV",
+      "data": "ByhGhRtSXwLl4nYEJ3pK7ky6L/gl7pMnpv12mOZx7ga4Nyj8yErO56aoLKLREcNxwcqY8xraDNZS+x2wy+Il5jkUpBxgwwGDWAufFeNScLw="
+    },
+    {
+      "name": "Dennis",
+      "salt": "Fb8W5kO6TQfWkx9Vxtm2gQ==",
+      "iv": "mjde1IO1stZLljk4",
+      "data": "RCYwZyuo1YjcQjNYg5Sbob8LwUu0hBmKH28hzLiTmpKmweQ2JHzmE3NVRNdGIV7zKdPSJ3VifqBaSlF27nAfLxOABLSbGZblMyIt3fyVLOU="
+    },
+    {
+      "name": "Jacob",
+      "salt": "XK8IvRXdt8OgZiKF+1M7IQ==",
+      "iv": "xZ5rttzHSdow7CCU",
+      "data": "j0Q/CCCbdD4IlzdNOdCmhKRsSote+NrOzoKQPhs22e9f13HODIjpMRE1I316zGFkgbzBtWN0Xs1+ocspBYMHIMQ4h2lDbluodc67z4EO1H0="
+    },
+    {
+      "name": "Justin",
+      "salt": "rrwVDwwz1SA6p0UHjD0XWA==",
+      "iv": "VvUW6x1hGyfx4DkY",
+      "data": "BhrFIzWOSkVveYw4dfRZtDk8m1PLCKhwOFk1/PK0qWMvZmEkNMkn+UPn5iL0kAhDxiP8LSekyH3bPcVgBFegAh1rfGVfMmWZhC+ylTYCOew="
+    },
+    {
+      "name": "Katie",
+      "salt": "EB9J6Rl814Vw5ngUWQdVMg==",
+      "iv": "9ecTqnyQUMeRHSBP",
+      "data": "W00XCbDHTVU18ULaESK6rxSXWML24+51UY2G3AzlLihUkXHK+EN9gzkPTs2EDcGKrlL01jOzp9md+5LG3/g1pDYNI5gaFPgp4TqKr3I6eGA="
+    },
+    {
+      "name": "Kinsey",
+      "salt": "9Mjac2RQy/vzkSb26mEXYg==",
+      "iv": "r462Z3ZX5EL2QqEL",
+      "data": "hiIZHOBAlre8Mw5bPUWjJaQ1nixVVVArZ4ZNuloylukfen1p11ha296+Epg1r8U88i40pk3A0iFi79e/Ky9hB2zKpgy4XGzeIUXtUG7u5j8="
+    },
+    {
+      "name": "Lana",
+      "salt": "XEVhIDLuN2fXkZxSEo0rUQ==",
+      "iv": "IcoqZAA4Th/yYyL+",
+      "data": "jPMRlatNV2XR8ZWe08bTl2upHq037iPY/xHGx0fbbSY28js2+JZDcQoX8l5OJCaliA5nH8oNffKScgcVxlDHDQ/4Qy9ACkQok6X4Rl5MbEg="
+    },
+    {
+      "name": "Michelle",
+      "salt": "0jiII4B9KtVnK3ed9IxmvQ==",
+      "iv": "P2ojr3oaCi2tnhRC",
+      "data": "n1g7NakPaVgvBGBl1Kua4r4BDXoNqVBfrp/c8XfIerCUHKPHD3UjtsDkq21v5zIwf2z+KlyZEgybfUBHDvct0oWWsd0jK7SgsdiWy0AMwJY="
+    },
+    {
+      "name": "Morgan",
+      "salt": "m8iL3qP921TYCqtboKi/CQ==",
+      "iv": "suCQzsDaCjVuQSFf",
+      "data": "xfFY7N9cmJQGE5Gp0Jtbo4ECsSfL/0nmnScKlBTw/xZoaFEHvy8H41EF3SbJUND3TZOHed6JoPeVvA0FNhW2Rk+UBNjnUcK/1zRQ70MNpE0="
+    },
+    {
+      "name": "Talon",
+      "salt": "IdgU+gotJUsGhY58Eeo6rw==",
+      "iv": "LAd3gfkH8+wWdcXu",
+      "data": "BLKWYYkiMxq8AIs17eJCB5KzO3I9vVEycVoLsqfOaj35Bxg/8nGqF5i/dsx5SLmTj0RqCZi7RWGHdjFqOA808GN/bkxN7C8Vp5FgkuldrKM="
+    },
+    {
+      "name": "Trenton",
+      "salt": "xKqL7hCZJqqzjq9ggz963g==",
+      "iv": "xeemr8Fvds6dcQyP",
+      "data": "Pb6L7Mkm1q9UQe78YnnW2OWoV+MKAY4vlvP9ShC8JOOWpTjNMk7/gwitYbxn/tS93lmzFzMQm4ltSF+cd2O/s4sBLEeSJ2v43YYN5Zs1WUE="
+    },
+    {
+      "name": "Tyler",
+      "salt": "hHAgm14JYts/2QtKu//LXg==",
+      "iv": "ynlFwzR6xAVynF2h",
+      "data": "VqrxDUD2MGMmJQN286c4w+Hxqb0zHZJqEM+wSfN8LyCyp+NUdkduX/BdYtUuzGh88TPl34iIN2AftcgmsDNLoOoXiJMqVlWw0xKclxgvDP0="
+    }
+  ]
+}
