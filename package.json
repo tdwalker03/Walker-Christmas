@@ -10,6 +10,7 @@
   "scripts": {
     "draw": "node scripts/draw.js",
     "verify": "node scripts/verify.js",
+    "stamp": "node scripts/stamp.js",
     "serve": "node scripts/serve.js",
     "test": "node --test test/*.test.js"
   }

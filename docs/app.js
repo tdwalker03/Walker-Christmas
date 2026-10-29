@@ -2,7 +2,7 @@
 // serve a cached crypto.js from a previous draw (GitHub Pages sends
 // max-age=600), silently deriving the wrong key and rejecting every
 // correct passphrase.
-import { decryptName } from './crypto.js?v=mvtuk1sr';
+import { decryptName } from './crypto.js?v=mvtup20f';
 
 const $ = (id) => document.getElementById(id);
 const views = ['view-unlock', 'view-working', 'view-result', 'view-empty'];
@@ -21,11 +21,45 @@ function escapeHtml(s) {
 
 let entries = [];
 
+/**
+ * Reload if this page is running stale code.
+ *
+ * GitHub Pages serves index.html and the scripts with `max-age=600`, so for ten
+ * minutes after a new draw a browser can keep serving the old page, which pulls
+ * the old crypto.js. If the encryption parameters changed, that derives the
+ * wrong key and rejects every correct passphrase - indistinguishable, to the
+ * person typing, from getting their passphrase wrong.
+ *
+ * So: ask the server what build it expects and compare. Fetching with
+ * `cache: 'reload'` refreshes the cached copy too, so the reload picks up the
+ * new page and, through its new `?v=` token, the new scripts.
+ */
+async function reloadIfStale() {
+  const mine = new URL(import.meta.url).searchParams.get('v');
+  if (!mine) return false;
+
+  try {
+    const html = await (await fetch(`index.html?fresh=${Date.now()}`, { cache: 'reload' })).text();
+    const served = html.match(/app\.js\?v=([A-Za-z0-9]+)/)?.[1];
+    if (!served || served === mine) return false;
+
+    // Reload at most once per build, so a misconfigured deploy cannot loop.
+    if (sessionStorage.getItem('reloadedFor') === served) return false;
+    sessionStorage.setItem('reloadedFor', served);
+    location.reload();
+    return true;
+  } catch {
+    return false; // Offline or blocked - carry on with what we have.
+  }
+}
+
 async function init() {
+  if (await reloadIfStale()) return;
+
   let data;
   try {
     // Cache-bust so a freshly pushed draw is never served from a stale cache.
-    const res = await fetch(`assignments.json?v=${Date.now()}`);
+    const res = await fetch(`assignments.json?t=${Date.now()}`);
     if (!res.ok) throw new Error(String(res.status));
     data = await res.json();
   } catch {

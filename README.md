@@ -142,9 +142,19 @@ the encryption parameters can leave someone pairing an old `crypto.js` with a ne
 draw — which rejects every correct passphrase and looks exactly like a broken
 passphrase.
 
-`npm run draw` therefore rewrites a `?v=` token on the `app.js` and `crypto.js`
-URLs each time it runs, so a new draw always fetches fresh code. `assignments.json`
-is cache-busted on every page load. Do not strip those tokens.
+Two things guard against it:
+
+1. `npm run draw` rewrites a `?v=` token on the `app.js` and `crypto.js` URLs
+   each time it runs, so a new draw always pulls fresh code. If you edit
+   anything in `docs/` **without** redrawing, run `npm run stamp` to bump it by
+   hand. `assignments.json` is cache-busted on every page load.
+2. The page checks, on load, whether the version it is running matches the one
+   the server expects, and reloads itself once if not. That covers the case the
+   token alone cannot: a cached `index.html` pulling cached scripts, where the
+   new token never reaches the browser at all.
+
+Do not strip those tokens. The second guard only protects builds that already
+have it, so the very first load after this landed may still need a refresh.
 
 ## Layout
 
